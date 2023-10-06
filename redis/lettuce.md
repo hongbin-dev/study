@@ -1,5 +1,5 @@
 ### 셋팅
-lettuce 사용으로 RedisConnectionFactory를 Bean으로 등록하였음.
+lettuce 사용으로 RedisConnectionFactory를 Bean으로 등록했다.
 
 ```java
 @Bean
@@ -25,3 +25,28 @@ public RedisConnectionFactory redisConnectionFactory() {
     return lettuceConnectionFactory;
 }
 ```
+
+
+![error-message.png](img/init-error.png)
+하지만 에러가 발생했는데, afterPropertiesSet()에 초기화를 하지 않았다며 에러 메시지를 뱉었다.
+
+왜냐면 LettuceConnectionFactory객체가 아직 초기화 되지 않았는데(), test connection을 하려고 해서 생긴 문제로 보인다.
+
+알고보니 initConnection()는 LettuceConnectionFactory Bean 내부에서 사용중인 메서드였는데,
+
+![img.png](img/after-properties-set.png)
+
+위 사진은 LettuceConnectionFactory의 afterPropertiesSet() 메서드다. 최하단 조건문을 보면, 옵션에 따라 initConnection()을 실행시키는걸로 보인다.
+
+```java
+@Bean
+public RedisConnectionFactory redisConnectionFactory() {
+    var lettuceConnectionFactory = new LettuceConnectionFactory(redisProperties.getHost(),
+        redisProperties.getPort());
+    lettuceConnectionFactory.setEagerInitialization(true);
+
+    return lettuceConnectionFactory;
+}
+```
+
+직접 초기화하려고 하지 않았다. redisConnectionFactory빈에서 afterPropertiesSet()에서 Eager 초기화를 지원하니, `setEagerInitialization(true)`를 설정해주는 방법으로 진행했다.
