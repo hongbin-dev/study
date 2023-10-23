@@ -56,7 +56,7 @@ public class RetryAspect {
 retry 수 만큼 N번 반복하고, joinPoint(메서드 실행시점)에서 허용된 예외가 발생하면 반복합니다.
 허용되지 않는 예외가 발생 시 그대로 예외를 전파시키는 비즈니스입니다.
 
-예외 클래스는 isAssignableFrom()로 비교되기 때문에 정확한 타입만 retry 되는게 아닌, 해당 객체를 상속/구현한 하위 클래스도 retry할 수 있도록 설정했다.
+예외 클래스는 isAssignableFrom()로 비교되기 때문에 동일한 타입만 retry 되는게 아닌, 해당 객체를 상속/구현한 하위 클래스도 retry할 수 있도록 설정했다.
 
 ```java
 @Transactional
@@ -69,4 +69,4 @@ public UserCreateResponse save(String name) {
 }
 ```
 
-이런식으로 서비스레이어에서 사용할 수 있는 AOP기반 retry를 적용해볼 수 있을 거 같다.
+이런식으로 서비스레이어에서 사용할 수 있는 AOP기반 retry를 적용해볼 수 있다.
