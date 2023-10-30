@@ -21,7 +21,8 @@ GC(garbage collector)란?
 왜 이런 구조일까?
 
 메모리 특징상, 최근에 할당된 메모리가 빠른시간 내에 해제된다는 가설로 설계 됐다.
-최근에 할당되는 young generation과 오래된 객체인 old generation을 나눠. 관심사를 나눠(minor, major) 메모리를 효율적으로 사용한다. (모든 객체를 매번 탐색하는 것보다, 신규객체만 탐색하는게 더 효율적이니까)
+최근에 할당되는 young generation과 오래된 객체인 old generation을 나눈다. 
+관심사를 나눠(minor, major) 메모리를 효율적으로 사용한다. 모든 객체를 매번 탐색하는 것보다, 신규객체만 탐색하여 해제하는게 목적이다.
 
 ## 주요 용어 
 
@@ -38,3 +39,9 @@ major gc(full gc): old generation 영역이 부족한 경우 발생. 일반적�
 Stop the world: GC작업으로 인하여 애플리케이션이 멈추는 걸 뜻함.
 
 mark and sweep (compact): 
+
+## 주요 GC
+- Serial GC
+- Parallel GC (java 8 default)
+- G1GC (java 9 default)
+- ZGC
